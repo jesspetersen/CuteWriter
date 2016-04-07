@@ -13,6 +13,7 @@
         ResizeMode="CanResizeWithGrip"
         WindowStyle="ToolWindow"
         FontFamily="Courier New"
+        Icon="Resources/Icon.png"
         FocusManager.FocusedElement="{Binding ElementName=UserInputBox}">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -42,7 +43,7 @@
             <Label Content="OPTIONS" Foreground="White" HorizontalAlignment="Center" />
             <Rectangle HorizontalAlignment="Stretch" Fill="White" Height="4"/>
             <Menu Background="#e86a35" FontFamily="Courier New" >
-                <MenuItem Name="FileMenu" Header="FILE" Height="30" Foreground="White" FontWeight="Bold" >
+                <MenuItem Name="FileMenu" Header="FILE" HorizontalAlignment="Stretch" MinWidth="123" Height="30" Foreground="White" FontWeight="Bold" >
                     <MenuItem Name="NewDoc" Header="New" Foreground="DeepPink" />
                     <MenuItem Name="OpenDoc" Header="Open" Foreground="DeepPink" />
                     <MenuItem Name="SaveDoc" Header="Save" Foreground="DeepPink" />
@@ -52,14 +53,14 @@
                     <MenuItem Name="ExitProgram" Header="Exit" Foreground="DeepPink" />
                 </MenuItem>
                 <Separator />
-                <MenuItem Name="FormatMenu" Header="FORMAT" Height="30" Foreground="White" FontWeight="Bold" >
+                <MenuItem Name="FormatMenu" Header="FORMAT" HorizontalAlignment="Stretch" Height="30" MinWidth="123" Foreground="White" FontWeight="Bold" >
                     <MenuItem Name="FontFamilyChange" Header="Font Family" Foreground="DeepPink" />
                     <MenuItem Name="FontSizeChange" Header="Font Size" Foreground="DeepPink" />
                     <MenuItem Name="FontColourChange" Header="Font Colour" Foreground="DeepPink" />
                     <MenuItem Name="ResetFontsChange" Header="Reset!" Foreground="DeepPink" />
                 </MenuItem>
                 <Separator />
-                <MenuItem Name="AboutMenu" Header="ABOUT" Height="30" Foreground="White" FontWeight="Bold" />
+                <MenuItem Name="AboutMenu" Header="ABOUT" HorizontalAlignment="Stretch" Height="30" MinWidth="123" Foreground="White" FontWeight="Bold" Click="AboutMenu_Click"  />
 
             </Menu>
         </StackPanel>

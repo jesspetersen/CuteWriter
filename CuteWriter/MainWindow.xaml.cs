@@ -29,5 +29,11 @@ namespace CuteWriter
         {
             BlackLabelDisplay.Content = "The text is being modified!! :)";
         }
+
+        private void AboutMenu_Click(object sender, RoutedEventArgs e)
+        {
+            var aboutWindow = new About();
+            aboutWindow.Show();
+        }
     }
 }
