@@ -32,11 +32,20 @@
         <Canvas Grid.Row="1" Background="Black" Height="35" Grid.ColumnSpan="2" />
         <Label Name="BlackLabelDisplay" Content="Hey there user, feel free to start up a document!" Grid.Row="1" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" />
         <TextBox Name="UserInputBox" HorizontalAlignment="Stretch" Grid.Row="2" Margin="0" Grid.Column="1" Padding="3" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextChanged="UserInputBox_TextChanged" />
-            
+
         <Canvas Grid.Row="2" Grid.Column="0" Background="#E34603" />
-        <StackPanel Grid.Row="2" Grid.Column="0">
+        <StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch">
             <Label Content="OPTIONS" Foreground="White" HorizontalAlignment="Center" />
             <Rectangle HorizontalAlignment="Stretch" Fill="White" Height="4"/>
+            <Menu Background="#e86a35" >
+                <MenuItem Header="FILE" Height="30" MinWidth="120" Foreground="White" FontWeight="Bold">
+                        <MenuItem Header="New" Foreground="Black" />
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="EDIT" Height="30" MinWidth="120" Foreground="White" FontWeight="Bold"/>
+                <Separator />
+                <MenuItem Header="ABOUT" Height="30" MinWidth="120" Foreground="White" FontWeight="Bold"/>
+            </Menu>
         </StackPanel>
 
         <Canvas Grid.Row="3" Background="#970290" Grid.ColumnSpan="2" FlowDirection="RightToLeft">
