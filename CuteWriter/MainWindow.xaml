@@ -26,25 +26,41 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Canvas Grid.Row="0" Background="#CC033C" Grid.ColumnSpan="2">
-            <Image Height="80" Canvas.Top="0" Stretch="Fill" Source="Resources/logojp.png" Grid.Column="0" />
+            <StackPanel Orientation="Horizontal">
+            <Image Height="80" Canvas.Top="0" Stretch="Fill" Source="Resources/kitties.png" Grid.Column="0" />
+                <Separator Margin="20" Background="Transparent" />
+            <Image Height="75" Stretch="Fill" Source="Resources/kitty.png" />
+            </StackPanel>
         </Canvas>
         <Label Name="TitleName" Content="CuteWriter" HorizontalAlignment="Right" Foreground="White" VerticalAlignment="Bottom" FontSize="25" FontWeight="Bold" Grid.Column="1" />
         <Canvas Grid.Row="1" Background="Black" Height="35" Grid.ColumnSpan="2" />
         <Label Name="BlackLabelDisplay" Content="Hey there user, feel free to start up a document!" Grid.Row="1" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" />
-        <TextBox Name="UserInputBox" HorizontalAlignment="Stretch" Grid.Row="2" Margin="0" Grid.Column="1" Padding="3" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextChanged="UserInputBox_TextChanged" />
+        <TextBox Name="UserInputBox" Foreground="Fuchsia" HorizontalAlignment="Stretch" Grid.Row="2" Margin="0" Grid.Column="1" Padding="3" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextChanged="UserInputBox_TextChanged" />
 
         <Canvas Grid.Row="2" Grid.Column="0" Background="#E34603" />
         <StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch">
             <Label Content="OPTIONS" Foreground="White" HorizontalAlignment="Center" />
             <Rectangle HorizontalAlignment="Stretch" Fill="White" Height="4"/>
-            <Menu Background="#e86a35" >
-                <MenuItem Header="FILE" Height="30" MinWidth="120" Foreground="White" FontWeight="Bold">
-                        <MenuItem Header="New" Foreground="Black" />
+            <Menu Background="#e86a35" FontFamily="Courier New" >
+                <MenuItem Name="FileMenu" Header="FILE" Height="30" Foreground="White" FontWeight="Bold" >
+                    <MenuItem Name="NewDoc" Header="New" Foreground="DeepPink" />
+                    <MenuItem Name="OpenDoc" Header="Open" Foreground="DeepPink" />
+                    <MenuItem Name="SaveDoc" Header="Save" Foreground="DeepPink" />
+                    <MenuItem Name="SaveAsDoc" Header="Save As" Foreground="DeepPink" />
+                    <Separator />
+                    <MenuItem Name="DeleteDoc" Header="Delete" Foreground="DeepPink" />
+                    <MenuItem Name="ExitProgram" Header="Exit" Foreground="DeepPink" />
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="EDIT" Height="30" MinWidth="120" Foreground="White" FontWeight="Bold"/>
+                <MenuItem Name="FormatMenu" Header="FORMAT" Height="30" Foreground="White" FontWeight="Bold" >
+                    <MenuItem Name="FontFamilyChange" Header="Font Family" Foreground="DeepPink" />
+                    <MenuItem Name="FontSizeChange" Header="Font Size" Foreground="DeepPink" />
+                    <MenuItem Name="FontColourChange" Header="Font Colour" Foreground="DeepPink" />
+                    <MenuItem Name="ResetFontsChange" Header="Reset!" Foreground="DeepPink" />
+                </MenuItem>
                 <Separator />
-                <MenuItem Header="ABOUT" Height="30" MinWidth="120" Foreground="White" FontWeight="Bold"/>
+                <MenuItem Name="AboutMenu" Header="ABOUT" Height="30" Foreground="White" FontWeight="Bold" />
+
             </Menu>
         </StackPanel>
 
