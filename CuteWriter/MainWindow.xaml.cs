@@ -101,6 +101,7 @@ namespace CuteWriter
                         break;
 
                     case MessageBoxResult.Cancel:
+                        currentFile = null;
                         BlackLabelDisplay.Content = "You did not create a new document. :)";
                         break;
                 }
@@ -109,6 +110,89 @@ namespace CuteWriter
             {
                 BlackLabelDisplay.Content = "Here is your new document! <3";
                 currentFile = null;
+            }
+        }
+
+        private void OpenDoc_Click(object sender, RoutedEventArgs e)
+        {
+            if (UserInputBox.Text != "")
+            {
+                MessageBoxResult haveInput = MessageBox.Show("Hey user! There's already text in the editor - do you want to save that first?", "Save?", MessageBoxButton.YesNoCancel);
+
+                switch (haveInput)
+                {
+                    case MessageBoxResult.Yes:
+                        SaveFileDialog saveFile = new SaveFileDialog();
+                        saveFile.DefaultExt = "txt";
+                        saveFile.Filter = "Text files (*.txt)|*.txt";
+                        saveFile.ShowDialog();
+                        currentFile = saveFile.FileName;
+                        try
+                        {
+                            File.WriteAllText(currentFile, UserInputBox.Text);
+                            OpenFileDialog openFile = new OpenFileDialog();
+                            openFile.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                            openFile.ShowDialog();
+                            currentFile = openFile.FileName;
+                            try
+                            {
+                                string openText = File.ReadAllText(currentFile);
+                                UserInputBox.Text = openText;
+                                BlackLabelDisplay.Content = "Here's that file you wanted!";
+                            }
+                            catch (ArgumentException)
+                            {
+                                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem opening your work. Please try again if you would like to open that file!", "File Not Opened!");
+                                BlackLabelDisplay.Content = "Hey, just letting you know, we had a problem opening that file!";
+                            }
+                        }
+                        catch (ArgumentException)
+                        {
+                            MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
+                            BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
+                        }
+                        break;
+
+                    case MessageBoxResult.No:
+                        OpenFileDialog opFile = new OpenFileDialog();
+                        opFile.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                        opFile.ShowDialog();
+                        currentFile = opFile.FileName;
+                        try
+                        {
+                            string openText = File.ReadAllText(currentFile);
+                            UserInputBox.Text = openText;
+                            BlackLabelDisplay.Content = "Here's that file you wanted! Your previous file was not saved!";
+                        }
+                        catch (ArgumentException)
+                        {
+                            MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem opening your work. Please try again if you would like to open that file!", "File Not Opened!");
+                            BlackLabelDisplay.Content = "Hey, just letting you know, we had a problem opening that file!";
+                        }
+                        break;
+
+                    case MessageBoxResult.Cancel:
+                        BlackLabelDisplay.Content = "You did not open a file! :)";
+                        break;
+                }
+            }
+            else
+            {
+                OpenFileDialog opFile = new OpenFileDialog();
+                opFile.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                opFile.ShowDialog();
+                currentFile = opFile.FileName;
+                try
+                {
+                    string openText = File.ReadAllText(currentFile);
+                    UserInputBox.Text = openText;
+                    BlackLabelDisplay.Content = "Here's that file you wanted! Your previous file was not saved!";
+                }
+                catch (ArgumentException)
+                {
+                    MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem opening your work. Please try again if you would like to open that file!", "File Not Opened!");
+                    BlackLabelDisplay.Content = "Hey, just letting you know, we had a problem opening that file!";
+                }
             }
         }
     }
