@@ -41,12 +41,58 @@ namespace CuteWriter
 
         private void SaveAsDoc_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFile = new SaveFileDialog();
-            saveFile.DefaultExt = "txt";
-            saveFile.Filter = "Text files (*.txt)|*.txt";
-            saveFile.ShowDialog();
-            currentFile = saveFile.FileName;
-            File.WriteAllText(currentFile, UserInputBox.Text);
+            if (UserInputBox.Text != "")
+            {
+                SaveFileDialog saveFile = new SaveFileDialog();
+                saveFile.DefaultExt = "txt";
+                saveFile.Filter = "Text files (*.txt)|*.txt";
+                saveFile.ShowDialog();
+                currentFile = saveFile.FileName;
+                File.WriteAllText(currentFile, UserInputBox.Text);
+                BlackLabelDisplay.Content = "Well done, you saved your work! :3";
+            }
+            else
+            {
+                BlackLabelDisplay.Content = "Hey! You don't seem to have written anything! Try typing before you save!";
+            }
+        }
+
+        private void NewDoc_Click(object sender, RoutedEventArgs e)
+        {
+            if (UserInputBox.Text != "")
+            {
+                MessageBoxResult haveInput = MessageBox.Show("Hey user! There's already text in the editor - do you want to save that first?!", "Save?", MessageBoxButton.YesNoCancel);
+
+                switch (haveInput)
+                {
+                    case MessageBoxResult.Yes:
+                        SaveFileDialog saveFile = new SaveFileDialog();
+                        saveFile.DefaultExt = "txt";
+                        saveFile.Filter = "Text files (*.txt)|*.txt";
+                        saveFile.ShowDialog();
+                        currentFile = saveFile.FileName;
+                        File.WriteAllText(currentFile, UserInputBox.Text);
+                        UserInputBox.Text = "";
+                        currentFile = null;
+                        BlackLabelDisplay.Content = "Your document was saved!! Here is your new document! <3";
+                        break;
+
+                    case MessageBoxResult.No:
+                        UserInputBox.Text = "";
+                        currentFile = null;
+                        BlackLabelDisplay.Content = "Your previous file was not saved. Here is your new document! <3";
+                        break;
+
+                    case MessageBoxResult.Cancel:
+                        BlackLabelDisplay.Content = "You did not create a new document. :)";
+                        break;
+                }
+            }
+            else
+            {
+                BlackLabelDisplay.Content = "Here is your new document! <3";
+                currentFile = null;
+            }
         }
     }
 }

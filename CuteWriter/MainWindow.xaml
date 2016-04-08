@@ -44,7 +44,7 @@
             <Rectangle HorizontalAlignment="Stretch" Fill="White" Height="4"/>
             <Menu Background="#e86a35" FontFamily="Courier New" >
                 <MenuItem Name="FileMenu" Header="FILE" HorizontalAlignment="Stretch" MinWidth="123" Height="30" Foreground="White" FontWeight="Bold" >
-                    <MenuItem Name="NewDoc" Header="New" Foreground="DeepPink" />
+                    <MenuItem Name="NewDoc" Header="New" Foreground="DeepPink" Click="NewDoc_Click"  />
                     <MenuItem Name="OpenDoc" Header="Open" Foreground="DeepPink" />
                     <MenuItem Name="SaveDoc" Header="Save" Foreground="DeepPink" />
                     <MenuItem Name="SaveAsDoc" Header="Save As" Foreground="DeepPink" Click="SaveAsDoc_Click"  />
