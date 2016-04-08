@@ -48,8 +48,16 @@ namespace CuteWriter
                 saveFile.Filter = "Text files (*.txt)|*.txt";
                 saveFile.ShowDialog();
                 currentFile = saveFile.FileName;
-                File.WriteAllText(currentFile, UserInputBox.Text);
-                BlackLabelDisplay.Content = "Well done, you saved your work! :3";
+                try
+                {
+                    File.WriteAllText(currentFile, UserInputBox.Text);
+                    BlackLabelDisplay.Content = "Well done, you saved your work! :3";
+                }
+                catch (ArgumentException)
+                {
+                    MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
+                    BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
+                }
             }
             else
             {
@@ -61,7 +69,7 @@ namespace CuteWriter
         {
             if (UserInputBox.Text != "")
             {
-                MessageBoxResult haveInput = MessageBox.Show("Hey user! There's already text in the editor - do you want to save that first?!", "Save?", MessageBoxButton.YesNoCancel);
+                MessageBoxResult haveInput = MessageBox.Show("Hey user! There's already text in the editor - do you want to save that first?", "Save?", MessageBoxButton.YesNoCancel);
 
                 switch (haveInput)
                 {
@@ -71,10 +79,19 @@ namespace CuteWriter
                         saveFile.Filter = "Text files (*.txt)|*.txt";
                         saveFile.ShowDialog();
                         currentFile = saveFile.FileName;
-                        File.WriteAllText(currentFile, UserInputBox.Text);
-                        UserInputBox.Text = "";
-                        currentFile = null;
-                        BlackLabelDisplay.Content = "Your document was saved!! Here is your new document! <3";
+                        try
+                        {
+                            File.WriteAllText(currentFile, UserInputBox.Text);
+                            BlackLabelDisplay.Content = "Well done, you saved your work! :3";
+                            UserInputBox.Text = "";
+                            currentFile = null;
+                            BlackLabelDisplay.Content = "Your document was saved!! Here is your new document! <3";
+                        }
+                        catch (ArgumentException)
+                        {
+                            MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
+                            BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
+                        }
                         break;
 
                     case MessageBoxResult.No:
