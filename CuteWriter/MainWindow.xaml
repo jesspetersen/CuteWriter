@@ -47,7 +47,7 @@
                     <MenuItem Name="NewDoc" Header="New" Foreground="DeepPink" />
                     <MenuItem Name="OpenDoc" Header="Open" Foreground="DeepPink" />
                     <MenuItem Name="SaveDoc" Header="Save" Foreground="DeepPink" />
-                    <MenuItem Name="SaveAsDoc" Header="Save As" Foreground="DeepPink" />
+                    <MenuItem Name="SaveAsDoc" Header="Save As" Foreground="DeepPink" Click="SaveAsDoc_Click"  />
                     <Separator />
                     <MenuItem Name="DeleteDoc" Header="Delete" Foreground="DeepPink" />
                     <MenuItem Name="ExitProgram" Header="Exit" Foreground="DeepPink" />

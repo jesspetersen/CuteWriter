@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using Microsoft.Win32;
 
 namespace CuteWriter
 {
@@ -20,6 +22,7 @@ namespace CuteWriter
     /// </summary>
     public partial class MainWindow : Window
     {
+        string currentFile = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -34,6 +37,16 @@ namespace CuteWriter
         {
             var aboutWindow = new About();
             aboutWindow.Show();
+        }
+
+        private void SaveAsDoc_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.DefaultExt = "txt";
+            saveFile.Filter = "Text files (*.txt)|*.txt";
+            saveFile.ShowDialog();
+            currentFile = saveFile.FileName;
+            File.WriteAllText(currentFile, UserInputBox.Text);
         }
     }
 }
