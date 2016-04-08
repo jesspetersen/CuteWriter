@@ -122,14 +122,42 @@ namespace CuteWriter
                 switch (haveInput)
                 {
                     case MessageBoxResult.Yes:
-                        SaveFileDialog saveFile = new SaveFileDialog();
-                        saveFile.DefaultExt = "txt";
-                        saveFile.Filter = "Text files (*.txt)|*.txt";
-                        saveFile.ShowDialog();
-                        currentFile = saveFile.FileName;
-                        try
+                        if (currentFile == null)
+                        {
+                            SaveFileDialog saveFile = new SaveFileDialog();
+                            saveFile.DefaultExt = "txt";
+                            saveFile.Filter = "Text files (*.txt)|*.txt";
+                            saveFile.ShowDialog();
+                            currentFile = saveFile.FileName;
+                            try
+                            {
+                                File.WriteAllText(currentFile, UserInputBox.Text);
+                                OpenFileDialog openFile = new OpenFileDialog();
+                                openFile.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                                openFile.ShowDialog();
+                                currentFile = openFile.FileName;
+                                try
+                                {
+                                    string openText = File.ReadAllText(currentFile);
+                                    UserInputBox.Text = openText;
+                                    BlackLabelDisplay.Content = "Here's that file you wanted!";
+                                }
+                                catch (ArgumentException)
+                                {
+                                    MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem opening your work. Please try again if you would like to open that file!", "File Not Opened!");
+                                    BlackLabelDisplay.Content = "Hey, just letting you know, we had a problem opening that file!";
+                                }
+                            }
+                            catch (ArgumentException)
+                            {
+                                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
+                                BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
+                            }
+                        }
+                        else
                         {
                             File.WriteAllText(currentFile, UserInputBox.Text);
+                            MessageBoxResult warning = MessageBox.Show("Your work was successfully saved!", "Work Saved!");
                             OpenFileDialog openFile = new OpenFileDialog();
                             openFile.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
                             openFile.ShowDialog();
@@ -142,14 +170,9 @@ namespace CuteWriter
                             }
                             catch (ArgumentException)
                             {
-                                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem opening your work. Please try again if you would like to open that file!", "File Not Opened!");
+                                MessageBoxResult warningUnopened = MessageBox.Show("Sorry, there was a problem opening your work. Please try again if you would like to open that file!", "File Not Opened!");
                                 BlackLabelDisplay.Content = "Hey, just letting you know, we had a problem opening that file!";
                             }
-                        }
-                        catch (ArgumentException)
-                        {
-                            MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
-                            BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
                         }
                         break;
 
@@ -190,8 +213,35 @@ namespace CuteWriter
                 }
                 catch (ArgumentException)
                 {
-                    MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem opening your work. Please try again if you would like to open that file!", "File Not Opened!");
+                    MessageBoxResult saved = MessageBox.Show("Sorry, there was a problem opening your work. Please try again if you would like to open that file!", "File Not Opened!");
                     BlackLabelDisplay.Content = "Hey, just letting you know, we had a problem opening that file!";
+                }
+            }
+        }
+
+        private void SaveDoc_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentFile != null)
+            {
+                File.WriteAllText(currentFile, UserInputBox.Text);
+                BlackLabelDisplay.Content = "I just saved your file successfully! Yay! :D";
+            }
+            else
+            {
+                SaveFileDialog saveFile = new SaveFileDialog();
+                saveFile.DefaultExt = "txt";
+                saveFile.Filter = "Text files (*.txt)|*.txt";
+                saveFile.ShowDialog();
+                currentFile = saveFile.FileName;
+                try
+                {
+                    File.WriteAllText(currentFile, UserInputBox.Text);
+                    BlackLabelDisplay.Content = "Well done, you saved your work! :3";
+                }
+                catch (ArgumentException)
+                {
+                    MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
+                    BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
                 }
             }
         }
