@@ -26,6 +26,9 @@ namespace CuteWriter
         public MainWindow()
         {
             InitializeComponent();
+            string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            currentFile = desktop + "/CuteWriterDoc.txt";
+            File.WriteAllText(currentFile, UserInputBox.Text);
         }
 
         private void UserInputBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -74,23 +77,42 @@ namespace CuteWriter
                 switch (haveInput)
                 {
                     case MessageBoxResult.Yes:
-                        SaveFileDialog saveFile = new SaveFileDialog();
-                        saveFile.DefaultExt = "txt";
-                        saveFile.Filter = "Text files (*.txt)|*.txt";
-                        saveFile.ShowDialog();
-                        currentFile = saveFile.FileName;
-                        try
+                        if (currentFile == null)
                         {
-                            File.WriteAllText(currentFile, UserInputBox.Text);
-                            BlackLabelDisplay.Content = "Well done, you saved your work! :3";
-                            UserInputBox.Text = "";
-                            currentFile = null;
-                            BlackLabelDisplay.Content = "Your document was saved!! Here is your new document! <3";
+                            SaveFileDialog saveFile = new SaveFileDialog();
+                            saveFile.DefaultExt = "txt";
+                            saveFile.Filter = "Text files (*.txt)|*.txt";
+                            saveFile.ShowDialog();
+                            currentFile = saveFile.FileName;
+                            try
+                            {
+                                File.WriteAllText(currentFile, UserInputBox.Text);
+                                BlackLabelDisplay.Content = "Well done, you saved your work! :3";
+                                UserInputBox.Text = "";
+                                currentFile = null;
+                                BlackLabelDisplay.Content = "Your document was saved!! Here is your new document! <3";
+                            }
+                            catch (ArgumentException)
+                            {
+                                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
+                                BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
+                            }
                         }
-                        catch (ArgumentException)
+                        else
                         {
-                            MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
-                            BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
+                            try
+                            {
+                                File.WriteAllText(currentFile, UserInputBox.Text);
+                                BlackLabelDisplay.Content = "Well done, you saved your work! :3";
+                                UserInputBox.Text = "";
+                                currentFile = null;
+                                BlackLabelDisplay.Content = "Your document was saved!! Here is your new document! <3";
+                            }
+                            catch (ArgumentException)
+                            {
+                                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
+                                BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
+                            }
                         }
                         break;
 
@@ -221,7 +243,7 @@ namespace CuteWriter
 
         private void SaveDoc_Click(object sender, RoutedEventArgs e)
         {
-            if (currentFile != null)
+            if (currentFile != null || currentFile == "")
             {
                 File.WriteAllText(currentFile, UserInputBox.Text);
                 BlackLabelDisplay.Content = "I just saved your file successfully! Yay! :D";
@@ -243,6 +265,32 @@ namespace CuteWriter
                     MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
                     BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
                 }
+            }
+        }
+
+        private void DeleteDoc_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentFile != null || currentFile != "")
+            {
+                try
+                {
+                    File.Delete(currentFile);
+                    UserInputBox.Text = "";
+                    currentFile = null;
+                    BlackLabelDisplay.Content = "Your previous file was deleted. Here is a new document! <3";
+                }
+                catch (ArgumentException)
+                {
+                    MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem deleting your file. Please make sure that the file has been saved before you attempt to delete it.", "Work Not Deleted!");
+                    BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to delete that file!";
+                }
+            }
+            else
+            {
+                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem deleting your file. You have not yet saved this file, so there was nothing to delete. We've given you a nice empty file to work on now! Make sure to save it!", "Work Not Deleted!");
+                UserInputBox.Text = "";
+                currentFile = null;
+                BlackLabelDisplay.Content = "Here is a new document! <3";
             }
         }
     }
