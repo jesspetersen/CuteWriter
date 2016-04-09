@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -31,6 +32,8 @@ namespace CuteWriter
             File.WriteAllText(currentFile, UserInputBox.Text);
             CurrentFontSize.Text = Convert.ToString(UserInputBox.FontSize);
             ColourComboBox.SelectedIndex = 0;
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow1);
+            player.Play();
         }
 
         private void UserInputBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -42,6 +45,8 @@ namespace CuteWriter
         {
             var aboutWindow = new About();
             aboutWindow.Show();
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow3);
+            player.Play();
         }
 
         private void SaveAsDoc_Click(object sender, RoutedEventArgs e)
@@ -57,6 +62,8 @@ namespace CuteWriter
                 {
                     File.WriteAllText(currentFile, UserInputBox.Text);
                     BlackLabelDisplay.Content = "Well done, you saved your work! :3";
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
+                    player.Play();
                 }
                 catch (ArgumentException)
                 {
@@ -93,6 +100,8 @@ namespace CuteWriter
                                 UserInputBox.Text = "";
                                 currentFile = null;
                                 BlackLabelDisplay.Content = "Your document was saved!! Here is your new document! <3";
+                                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
+                                player.Play();
                             }
                             catch (ArgumentException)
                             {
@@ -109,6 +118,8 @@ namespace CuteWriter
                                 UserInputBox.Text = "";
                                 currentFile = null;
                                 BlackLabelDisplay.Content = "Your document was saved!! Here is your new document! <3";
+                                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
+                                player.Play();
                             }
                             catch (ArgumentException)
                             {
@@ -165,6 +176,8 @@ namespace CuteWriter
                                     string openText = File.ReadAllText(currentFile);
                                     UserInputBox.Text = openText;
                                     BlackLabelDisplay.Content = "Here's that file you wanted!";
+                                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
+                                    player.Play();
                                 }
                                 catch (ArgumentException)
                                 {
@@ -191,6 +204,8 @@ namespace CuteWriter
                                 string openText = File.ReadAllText(currentFile);
                                 UserInputBox.Text = openText;
                                 BlackLabelDisplay.Content = "Here's that file you wanted!";
+                                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
+                                player.Play();
                             }
                             catch (ArgumentException)
                             {
@@ -249,6 +264,9 @@ namespace CuteWriter
             {
                 File.WriteAllText(currentFile, UserInputBox.Text);
                 BlackLabelDisplay.Content = "I just saved your file successfully! Yay! :D";
+
+                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
+                player.Play();
             }
             else
             {
@@ -261,6 +279,8 @@ namespace CuteWriter
                 {
                     File.WriteAllText(currentFile, UserInputBox.Text);
                     BlackLabelDisplay.Content = "Well done, you saved your work! :3";
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
+                    player.Play();
                 }
                 catch (ArgumentException)
                 {
@@ -298,69 +318,7 @@ namespace CuteWriter
 
         private void ExitProgram_Click(object sender, RoutedEventArgs e)
         {
-            if (UserInputBox.Text != "")
-            {
-                MessageBoxResult haveInput = MessageBox.Show("Hey user! There's text in the editor - do you want to save that before you exit?", "Save?", MessageBoxButton.YesNoCancel);
-
-                switch (haveInput)
-                {
-                    case MessageBoxResult.Yes:
-                        if (currentFile == null)
-                        {
-                            SaveFileDialog saveFile = new SaveFileDialog();
-                            saveFile.DefaultExt = "txt";
-                            saveFile.Filter = "Text files (*.txt)|*.txt";
-                            saveFile.ShowDialog();
-                            currentFile = saveFile.FileName;
-                            try
-                            {
-                                File.WriteAllText(currentFile, UserInputBox.Text);
-                                App.Current.Shutdown();
-                            }
-                            catch (ArgumentException)
-                            {
-                                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
-                                BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                File.WriteAllText(currentFile, UserInputBox.Text);
-                                App.Current.Shutdown();
-                            }
-                            catch (ArgumentException)
-                            {
-                                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
-                                BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
-                            }
-                        }
-                        break;
-
-                    case MessageBoxResult.No:
-                        App.Current.Shutdown();
-                        break;
-
-                    case MessageBoxResult.Cancel:
-                        BlackLabelDisplay.Content = "You did not exit the program! :D";
-                        break;
-                }
-            }
-            else
-            {
-                MessageBoxResult haveInput = MessageBox.Show("Hey user! Are you sure that you want to exit?", "Exit?", MessageBoxButton.YesNo);
-                switch (haveInput)
-                {
-                    case MessageBoxResult.Yes:
-                        App.Current.Shutdown();
-                        break;
-
-                    case MessageBoxResult.No:
-                        BlackLabelDisplay.Content = "You did not exit the program! :D";
-                        break;
-                }
-            }
+            this.Close();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -382,6 +340,8 @@ namespace CuteWriter
                             try
                             {
                                 File.WriteAllText(currentFile, UserInputBox.Text);
+                                System.Media.SoundPlayer player1 = new System.Media.SoundPlayer(Properties.Resources.meow4);
+                                player1.PlaySync();
                                 App.Current.Shutdown();
                             }
                             catch (ArgumentException)
@@ -395,6 +355,8 @@ namespace CuteWriter
                             try
                             {
                                 File.WriteAllText(currentFile, UserInputBox.Text);
+                                System.Media.SoundPlayer player2 = new System.Media.SoundPlayer(Properties.Resources.meow4);
+                                player2.PlaySync();
                                 App.Current.Shutdown();
                             }
                             catch (ArgumentException)
@@ -406,6 +368,8 @@ namespace CuteWriter
                         break;
 
                     case MessageBoxResult.No:
+                        System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow4);
+                        player.PlaySync();
                         App.Current.Shutdown();
                         break;
 
@@ -421,6 +385,8 @@ namespace CuteWriter
                 switch (haveInput)
                 {
                     case MessageBoxResult.Yes:
+                        System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow4);
+                        player.PlaySync();
                         App.Current.Shutdown();
                         break;
 
