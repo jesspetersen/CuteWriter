@@ -54,7 +54,12 @@
                 </MenuItem>
                 <Separator />
                 <MenuItem Name="FormatMenu" Header="FORMAT" HorizontalAlignment="Stretch" Height="30" MinWidth="123" Foreground="White" FontWeight="Bold" >
-                    <MenuItem Name="FontFamilyChange" Header="Font Family" Foreground="DeepPink" />
+                    <MenuItem Name="FontFamilyChange" Header="Font Family" Foreground="DeepPink" >
+                        <MenuItem Name="FontBest" Header="Best Font Ever" Click="FontBest_Click" />
+                        <MenuItem Name="FontSwirly" Header="Swirly" FontFamily="Lucida handwriting" Click="FontSwirly_Click" />
+                        <MenuItem Name="FontUgly" Header="Ugly" FontFamily="Comic Sans MS" Click="FontUgly_Click" />
+                        <MenuItem Name="FontReza" Header="Reza's Favourite" FontFamily="Century Gothic" Click="FontReza_Click" />
+                    </MenuItem>
                     <MenuItem Name="FontSizeChange" Header="Font Size" Foreground="DeepPink" />
                     <MenuItem Name="FontColourChange" Header="Font Colour" Foreground="DeepPink" />
                     <MenuItem Name="ResetFontsChange" Header="Reset!" Foreground="DeepPink" />
