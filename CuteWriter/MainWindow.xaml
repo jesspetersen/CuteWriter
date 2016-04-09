@@ -72,8 +72,21 @@
                             </StackPanel>
                         </MenuItem.Header>
                     </MenuItem>
-                    <MenuItem Name="FontColourChange" Header="Font Colour" Foreground="DeepPink" />
-                    <MenuItem Name="ResetFontsChange" Header="Reset!" Foreground="DeepPink" />
+                    <MenuItem Name="FontColourChange" Foreground="DeepPink">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Font Colour" />
+                                <Separator Margin="10,0,10,0" />
+                                <ComboBox Name="ColourComboBox">
+                                    <ComboBoxItem Name="ColourPink" Content="Piiiink" Foreground="Fuchsia" Selected="ColourPink_Selected" />
+                                    <ComboBoxItem Name="ColourNavy" Content="Naaavy" Foreground="Navy" Selected="ColourNavy_Selected" />
+                                    <ComboBoxItem Name="ColourBlack" Content="Eww Black" Foreground="Black" Selected="ColourBlack_Selected" />
+                                    <ComboBoxItem Name="ColourYellow" Content="Sunny Yellow" Foreground="Yellow" Selected="ColourYellow_Selected" />
+                                </ComboBox>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Name="ResetFontsChange" Header="Reset!" Foreground="DeepPink" Click="ResetFontsChange_Click" />
                 </MenuItem>
                 <Separator />
                 <MenuItem Name="AboutMenu" Header="ABOUT" HorizontalAlignment="Stretch" Height="30" MinWidth="123" Foreground="White" FontWeight="Bold" Click="AboutMenu_Click"  />

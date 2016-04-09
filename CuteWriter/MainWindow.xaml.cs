@@ -30,6 +30,7 @@ namespace CuteWriter
             currentFile = desktop + "/CuteWriterDoc.txt";
             File.WriteAllText(currentFile, UserInputBox.Text);
             CurrentFontSize.Text = Convert.ToString(UserInputBox.FontSize);
+            ColourComboBox.SelectedIndex = 0;
         }
 
         private void UserInputBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -409,6 +410,7 @@ namespace CuteWriter
                         break;
 
                     case MessageBoxResult.Cancel:
+                        e.Cancel = true;
                         BlackLabelDisplay.Content = "You did not exit the program! :D";
                         break;
                 }
@@ -423,6 +425,7 @@ namespace CuteWriter
                         break;
 
                     case MessageBoxResult.No:
+                        e.Cancel = true;
                         BlackLabelDisplay.Content = "You did not exit the program! :D";
                         break;
                 }
@@ -469,6 +472,33 @@ namespace CuteWriter
             }
             else
                 BlackLabelDisplay.Content = "Sorry, you can't make that text any bigger!! :3";
+        }
+
+        private void ResetFontsChange_Click(object sender, RoutedEventArgs e)
+        {
+            UserInputBox.FontSize = 12;
+            UserInputBox.FontFamily = new FontFamily("Courier New");
+            UserInputBox.Foreground = Brushes.Fuchsia;
+        }
+
+        private void ColourPink_Selected(object sender, RoutedEventArgs e)
+        {
+            UserInputBox.Foreground = Brushes.Fuchsia;
+        }
+
+        private void ColourNavy_Selected(object sender, RoutedEventArgs e)
+        {
+            UserInputBox.Foreground = Brushes.Navy;
+        }
+
+        private void ColourBlack_Selected(object sender, RoutedEventArgs e)
+        {
+            UserInputBox.Foreground = Brushes.Black;
+        }
+
+        private void ColourYellow_Selected(object sender, RoutedEventArgs e)
+        {
+            UserInputBox.Foreground = Brushes.Yellow;
         }
     }
 }
