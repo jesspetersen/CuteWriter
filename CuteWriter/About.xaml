@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:CuteWriter"
         mc:Ignorable="d"
         Title="CuteWriter - About" 
-        MinHeight="300" 
-        MinWidth="400" 
-        Height="300" 
-        Width="400"
+        MinHeight="350" 
+        MinWidth="450" 
+        Height="350" 
+        Width="450"
         ResizeMode="CanResizeWithGrip"
         WindowStyle="ToolWindow"
         FontFamily="Courier New"
@@ -34,8 +34,8 @@
             <Label Content="CuteWriter by Jessica Petersen" Margin="0" Padding="10" />
             <TextBlock TextWrapping="Wrap" Margin="0" Padding="10,0">
                 This application developed with Visual C# and Windows Presentation Foundation (WPF). You can find out more about Jessica and her other projects at 
-                <Hyperlink NavigateUri="http://www.jesspetersen.net"> www.jesspetersen.net </Hyperlink>. Images from public domain, sourced from
-                <Hyperlink NavigateUri="https://openclipart.org"> openclipart.org </Hyperlink>.
+                <Hyperlink NavigateUri="http://www.jesspetersen.net"> www.jesspetersen.net </Hyperlink>. Images and sounds from public domain, sourced from
+                <Hyperlink NavigateUri="https://openclipart.org"> openclipart.org </Hyperlink> and <Hyperlink NavigateUri="https://www.freesound.org"> freesound.org </Hyperlink>.
             </TextBlock>
         </StackPanel>
 
