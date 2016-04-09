@@ -29,6 +29,7 @@ namespace CuteWriter
             string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             currentFile = desktop + "/CuteWriterDoc.txt";
             File.WriteAllText(currentFile, UserInputBox.Text);
+            CurrentFontSize.Text = Convert.ToString(UserInputBox.FontSize);
         }
 
         private void UserInputBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -446,6 +447,28 @@ namespace CuteWriter
         private void FontBest_Click(object sender, RoutedEventArgs e)
         {
             UserInputBox.FontFamily = new FontFamily("Courier New");
+        }
+
+        private void FontSizeDown_Click(object sender, RoutedEventArgs e)
+        {
+            if (UserInputBox.FontSize > 10)
+            {
+                UserInputBox.FontSize = FontSize--;
+                CurrentFontSize.Text = Convert.ToString(UserInputBox.FontSize);
+            }
+            else
+                BlackLabelDisplay.Content = "Sorry, you can't make that text any smaller!! :3";
+        }
+
+        private void FontSizeUp_Click(object sender, RoutedEventArgs e)
+        {
+            if (UserInputBox.FontSize < 32)
+            {
+                UserInputBox.FontSize = FontSize++;
+                CurrentFontSize.Text = Convert.ToString(UserInputBox.FontSize);
+            }
+            else
+                BlackLabelDisplay.Content = "Sorry, you can't make that text any bigger!! :3";
         }
     }
 }

@@ -35,12 +35,12 @@
         </Canvas>
         <Label Name="TitleName" Content="CuteWriter" HorizontalAlignment="Right" Foreground="White" VerticalAlignment="Bottom" FontSize="25" FontWeight="Bold" Grid.Column="1" />
         <Canvas Grid.Row="1" Background="Black" Height="35" Grid.ColumnSpan="2" />
-        <Label Name="BlackLabelDisplay" Content="Hey there user, feel free to start up a document!" Grid.Row="1" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" />
-        <TextBox Name="UserInputBox" Foreground="Fuchsia" HorizontalAlignment="Stretch" Grid.Row="2" Margin="0" Grid.Column="1" Padding="3" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextChanged="UserInputBox_TextChanged" />
+        <Label Name="BlackLabelDisplay" FontSize="12" Content="Hey there user, feel free to start up a document!" Grid.Row="1" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" />
+        <TextBox Name="UserInputBox" Foreground="Fuchsia" HorizontalAlignment="Stretch" FontSize="12" Grid.Row="2" Margin="0" Grid.Column="1" Padding="3" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextChanged="UserInputBox_TextChanged" />
 
         <Canvas Grid.Row="2" Grid.Column="0" Background="#E34603" />
         <StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch">
-            <Label Content="OPTIONS" Foreground="White" HorizontalAlignment="Center" />
+            <Label Content="OPTIONS" FontSize="12" Foreground="White" HorizontalAlignment="Center" />
             <Rectangle HorizontalAlignment="Stretch" Fill="White" Height="4"/>
             <Menu Background="#e86a35" FontFamily="Courier New" >
                 <MenuItem Name="FileMenu" Header="FILE" HorizontalAlignment="Stretch" MinWidth="123" Height="30" Foreground="White" FontWeight="Bold" >
@@ -60,7 +60,18 @@
                         <MenuItem Name="FontUgly" Header="Ugly" FontFamily="Comic Sans MS" Click="FontUgly_Click" />
                         <MenuItem Name="FontReza" Header="Reza's Favourite" FontFamily="Century Gothic" Click="FontReza_Click" />
                     </MenuItem>
-                    <MenuItem Name="FontSizeChange" Header="Font Size" Foreground="DeepPink" />
+                    <MenuItem Name="FontSizeChange" Foreground="DeepPink">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Font Size" />
+                                <Separator Margin="10,0,10,0" />
+                                <Button Name="FontSizeDown" Content="-" Click="FontSizeDown_Click" />
+                                <TextBlock Name="CurrentFontSize" Padding="7, 0, 7, 0" />
+                                <Separator Margin="5" />
+                                <Button Name="FontSizeUp" Content="+" Click="FontSizeUp_Click" />
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
                     <MenuItem Name="FontColourChange" Header="Font Colour" Foreground="DeepPink" />
                     <MenuItem Name="ResetFontsChange" Header="Reset!" Foreground="DeepPink" />
                 </MenuItem>
