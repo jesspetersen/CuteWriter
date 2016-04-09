@@ -293,5 +293,88 @@ namespace CuteWriter
                 BlackLabelDisplay.Content = "Here is a new document! <3";
             }
         }
+
+        private void ExitProgram_Click(object sender, RoutedEventArgs e)
+        {
+            if (UserInputBox.Text != "")
+            {
+                MessageBoxResult haveInput = MessageBox.Show("Hey user! There's text in the editor - do you want to save that before you exit?", "Save?", MessageBoxButton.YesNoCancel);
+
+                switch (haveInput)
+                {
+                    case MessageBoxResult.Yes:
+                        if (currentFile == null)
+                        {
+                            SaveFileDialog saveFile = new SaveFileDialog();
+                            saveFile.DefaultExt = "txt";
+                            saveFile.Filter = "Text files (*.txt)|*.txt";
+                            saveFile.ShowDialog();
+                            currentFile = saveFile.FileName;
+                            try
+                            {
+                                File.WriteAllText(currentFile, UserInputBox.Text);
+                                App.Current.Shutdown();
+                            }
+                            catch (ArgumentException)
+                            {
+                                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
+                                BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                File.WriteAllText(currentFile, UserInputBox.Text);
+                                App.Current.Shutdown();
+                            }
+                            catch (ArgumentException)
+                            {
+                                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
+                                BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
+                            }
+                        }
+                        break;
+
+                    case MessageBoxResult.No:
+                        App.Current.Shutdown();
+                        break;
+
+                    case MessageBoxResult.Cancel:
+                        BlackLabelDisplay.Content = "You did not exit the program! :D";
+                        break;
+                }
+            }
+            else
+            {
+                MessageBoxResult haveInput = MessageBox.Show("Hey user! Are you sure that you want to exit?", "Exit?", MessageBoxButton.YesNo);
+                switch(haveInput)
+                {
+                    case MessageBoxResult.Yes:
+                        App.Current.Shutdown();
+                        break;
+
+                    case MessageBoxResult.No:
+                        BlackLabelDisplay.Content = "You did not exit the program! :D";
+                        break;
+                }
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MessageBoxResult haveInput = MessageBox.Show("Hey user! Are you sure that you want to exit?", "Exit?", MessageBoxButton.YesNo);
+            switch (haveInput)
+            {
+                case MessageBoxResult.Yes:
+                    App.Current.Shutdown();
+                    break;
+
+                case MessageBoxResult.No:
+                    e.Cancel = true;
+                    BlackLabelDisplay.Content = "You did not exit the program! :D";
+                    break;
+            }
+        }
     }
 }

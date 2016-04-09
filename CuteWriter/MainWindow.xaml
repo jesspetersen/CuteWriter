@@ -14,7 +14,7 @@
         WindowStyle="ToolWindow"
         FontFamily="Courier New"
         Icon="Resources/Icon.png"
-        FocusManager.FocusedElement="{Binding ElementName=UserInputBox}">
+        FocusManager.FocusedElement="{Binding ElementName=UserInputBox}" Closing="Window_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="124*"/>
@@ -50,7 +50,7 @@
                     <MenuItem Name="SaveAsDoc" Header="Save As" Foreground="DeepPink" Click="SaveAsDoc_Click"  />
                     <Separator />
                     <MenuItem Name="DeleteDoc" Header="Delete" Foreground="DeepPink" Click="DeleteDoc_Click"  />
-                    <MenuItem Name="ExitProgram" Header="Exit" Foreground="DeepPink" />
+                    <MenuItem Name="ExitProgram" Header="Exit" Foreground="DeepPink" Click="ExitProgram_Click" />
                 </MenuItem>
                 <Separator />
                 <MenuItem Name="FormatMenu" Header="FORMAT" HorizontalAlignment="Stretch" Height="30" MinWidth="123" Foreground="White" FontWeight="Bold" >
