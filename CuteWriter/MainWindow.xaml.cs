@@ -49,27 +49,98 @@ namespace CuteWriter
             player.Play();
         }
 
+        private bool SaveFileAs()
+        {
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.DefaultExt = "txt";
+            saveFile.Filter = "Text files (*.txt)|*.txt";
+            saveFile.ShowDialog();
+            currentFile = saveFile.FileName;
+            return SaveFile();
+        }
+
+        private bool SaveFile()
+        {
+            try
+            {
+                File.WriteAllText(currentFile, UserInputBox.Text);
+                BlackLabelDisplay.Content = "Well done, you saved your work! :3";
+                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
+                player.Play();
+                return true;
+            }
+            catch (ArgumentException)
+            {
+                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Would you like to try again?", "Work Not Saved!", MessageBoxButton.YesNo);
+                switch (warning)
+                {
+                    case MessageBoxResult.Yes:
+                        SaveFileAs();
+                        return true;
+
+                    case MessageBoxResult.No:
+                        BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        
+        private void NewDoc(bool wasSaved)
+        {
+
+            UserInputBox.Text = "";
+            currentFile = null;
+            if (wasSaved)
+                BlackLabelDisplay.Content = "Your document was saved!! Here is your new document! <3";
+            else
+                BlackLabelDisplay.Content = "Your previous file was not saved. Here is your new document! <3";
+        }
+
+        private void OpenFile(bool wasSaved)
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFile.ShowDialog();
+            currentFile = openFile.FileName;
+            try
+            {
+                string openText = File.ReadAllText(currentFile);
+                UserInputBox.Text = openText;
+                if (wasSaved)
+                {
+                    BlackLabelDisplay.Content = "Here's that file you wanted! Your previous file was saved!";
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
+                    player.Play();
+                }
+                else
+                {
+                    BlackLabelDisplay.Content = "Here's that file you wanted! Your previous file was not saved.";
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
+                    player.Play();
+                }
+            }
+            catch (ArgumentException)
+            {
+                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem opening your work. Please try again if you would like to open that file!", "File Not Opened!");
+                BlackLabelDisplay.Content = "Hey, just letting you know, we had a problem opening that file!";
+            }
+        }
+
+        private void ShutdownApp()
+        {
+            System.Media.SoundPlayer player1 = new System.Media.SoundPlayer(Properties.Resources.meow4);
+            player1.PlaySync();
+            App.Current.Shutdown();
+        }
+
         private void SaveAsDoc_Click(object sender, RoutedEventArgs e)
         {
             if (UserInputBox.Text != "")
             {
-                SaveFileDialog saveFile = new SaveFileDialog();
-                saveFile.DefaultExt = "txt";
-                saveFile.Filter = "Text files (*.txt)|*.txt";
-                saveFile.ShowDialog();
-                currentFile = saveFile.FileName;
-                try
-                {
-                    File.WriteAllText(currentFile, UserInputBox.Text);
-                    BlackLabelDisplay.Content = "Well done, you saved your work! :3";
-                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
-                    player.Play();
-                }
-                catch (ArgumentException)
-                {
-                    MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
-                    BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
-                }
+                SaveFileAs();
             }
             else
             {
@@ -88,51 +159,18 @@ namespace CuteWriter
                     case MessageBoxResult.Yes:
                         if (currentFile == null)
                         {
-                            SaveFileDialog saveFile = new SaveFileDialog();
-                            saveFile.DefaultExt = "txt";
-                            saveFile.Filter = "Text files (*.txt)|*.txt";
-                            saveFile.ShowDialog();
-                            currentFile = saveFile.FileName;
-                            try
-                            {
-                                File.WriteAllText(currentFile, UserInputBox.Text);
-                                BlackLabelDisplay.Content = "Well done, you saved your work! :3";
-                                UserInputBox.Text = "";
-                                currentFile = null;
-                                BlackLabelDisplay.Content = "Your document was saved!! Here is your new document! <3";
-                                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
-                                player.Play();
-                            }
-                            catch (ArgumentException)
-                            {
-                                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
-                                BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
-                            }
+                            bool successful = SaveFileAs();
+                            NewDoc(successful);
                         }
                         else
                         {
-                            try
-                            {
-                                File.WriteAllText(currentFile, UserInputBox.Text);
-                                BlackLabelDisplay.Content = "Well done, you saved your work! :3";
-                                UserInputBox.Text = "";
-                                currentFile = null;
-                                BlackLabelDisplay.Content = "Your document was saved!! Here is your new document! <3";
-                                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
-                                player.Play();
-                            }
-                            catch (ArgumentException)
-                            {
-                                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
-                                BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
-                            }
+                            bool success = SaveFile();
+                            NewDoc(success);
                         }
                         break;
 
                     case MessageBoxResult.No:
-                        UserInputBox.Text = "";
-                        currentFile = null;
-                        BlackLabelDisplay.Content = "Your previous file was not saved. Here is your new document! <3";
+                        NewDoc(false);
                         break;
 
                     case MessageBoxResult.Cancel:
@@ -143,8 +181,8 @@ namespace CuteWriter
             }
             else
             {
-                BlackLabelDisplay.Content = "Here is your new document! <3";
                 currentFile = null;
+                BlackLabelDisplay.Content = "Here is your new document! <3";
             }
         }
 
@@ -159,78 +197,18 @@ namespace CuteWriter
                     case MessageBoxResult.Yes:
                         if (currentFile == null)
                         {
-                            SaveFileDialog saveFile = new SaveFileDialog();
-                            saveFile.DefaultExt = "txt";
-                            saveFile.Filter = "Text files (*.txt)|*.txt";
-                            saveFile.ShowDialog();
-                            currentFile = saveFile.FileName;
-                            try
-                            {
-                                File.WriteAllText(currentFile, UserInputBox.Text);
-                                OpenFileDialog openFile = new OpenFileDialog();
-                                openFile.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-                                openFile.ShowDialog();
-                                currentFile = openFile.FileName;
-                                try
-                                {
-                                    string openText = File.ReadAllText(currentFile);
-                                    UserInputBox.Text = openText;
-                                    BlackLabelDisplay.Content = "Here's that file you wanted!";
-                                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
-                                    player.Play();
-                                }
-                                catch (ArgumentException)
-                                {
-                                    MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem opening your work. Please try again if you would like to open that file!", "File Not Opened!");
-                                    BlackLabelDisplay.Content = "Hey, just letting you know, we had a problem opening that file!";
-                                }
-                            }
-                            catch (ArgumentException)
-                            {
-                                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
-                                BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
-                            }
+                            bool successful = SaveFileAs();
+                            OpenFile(successful);
                         }
                         else
                         {
-                            File.WriteAllText(currentFile, UserInputBox.Text);
-                            MessageBoxResult warning = MessageBox.Show("Your work was successfully saved!", "Work Saved!");
-                            OpenFileDialog openFile = new OpenFileDialog();
-                            openFile.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-                            openFile.ShowDialog();
-                            currentFile = openFile.FileName;
-                            try
-                            {
-                                string openText = File.ReadAllText(currentFile);
-                                UserInputBox.Text = openText;
-                                BlackLabelDisplay.Content = "Here's that file you wanted!";
-                                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
-                                player.Play();
-                            }
-                            catch (ArgumentException)
-                            {
-                                MessageBoxResult warningUnopened = MessageBox.Show("Sorry, there was a problem opening your work. Please try again if you would like to open that file!", "File Not Opened!");
-                                BlackLabelDisplay.Content = "Hey, just letting you know, we had a problem opening that file!";
-                            }
+                            bool success = SaveFile();
+                            OpenFile(success);
                         }
                         break;
 
                     case MessageBoxResult.No:
-                        OpenFileDialog opFile = new OpenFileDialog();
-                        opFile.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-                        opFile.ShowDialog();
-                        currentFile = opFile.FileName;
-                        try
-                        {
-                            string openText = File.ReadAllText(currentFile);
-                            UserInputBox.Text = openText;
-                            BlackLabelDisplay.Content = "Here's that file you wanted! Your previous file was not saved!";
-                        }
-                        catch (ArgumentException)
-                        {
-                            MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem opening your work. Please try again if you would like to open that file!", "File Not Opened!");
-                            BlackLabelDisplay.Content = "Hey, just letting you know, we had a problem opening that file!";
-                        }
+                        OpenFile(false);
                         break;
 
                     case MessageBoxResult.Cancel:
@@ -240,21 +218,7 @@ namespace CuteWriter
             }
             else
             {
-                OpenFileDialog opFile = new OpenFileDialog();
-                opFile.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-                opFile.ShowDialog();
-                currentFile = opFile.FileName;
-                try
-                {
-                    string openText = File.ReadAllText(currentFile);
-                    UserInputBox.Text = openText;
-                    BlackLabelDisplay.Content = "Here's that file you wanted! Your previous file was not saved!";
-                }
-                catch (ArgumentException)
-                {
-                    MessageBoxResult saved = MessageBox.Show("Sorry, there was a problem opening your work. Please try again if you would like to open that file!", "File Not Opened!");
-                    BlackLabelDisplay.Content = "Hey, just letting you know, we had a problem opening that file!";
-                }
+                OpenFile(false);
             }
         }
 
@@ -262,31 +226,11 @@ namespace CuteWriter
         {
             if (currentFile != null || currentFile == "")
             {
-                File.WriteAllText(currentFile, UserInputBox.Text);
-                BlackLabelDisplay.Content = "I just saved your file successfully! Yay! :D";
-
-                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
-                player.Play();
+                SaveFile();
             }
             else
             {
-                SaveFileDialog saveFile = new SaveFileDialog();
-                saveFile.DefaultExt = "txt";
-                saveFile.Filter = "Text files (*.txt)|*.txt";
-                saveFile.ShowDialog();
-                currentFile = saveFile.FileName;
-                try
-                {
-                    File.WriteAllText(currentFile, UserInputBox.Text);
-                    BlackLabelDisplay.Content = "Well done, you saved your work! :3";
-                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow2);
-                    player.Play();
-                }
-                catch (ArgumentException)
-                {
-                    MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
-                    BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
-                }
+                SaveFileAs();
             }
         }
 
@@ -310,9 +254,7 @@ namespace CuteWriter
             else
             {
                 MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem deleting your file. You have not yet saved this file, so there was nothing to delete. We've given you a nice empty file to work on now! Make sure to save it!", "Work Not Deleted!");
-                UserInputBox.Text = "";
-                currentFile = null;
-                BlackLabelDisplay.Content = "Here is a new document! <3";
+                NewDoc(false);
             }
         }
 
@@ -332,45 +274,18 @@ namespace CuteWriter
                     case MessageBoxResult.Yes:
                         if (currentFile == null)
                         {
-                            SaveFileDialog saveFile = new SaveFileDialog();
-                            saveFile.DefaultExt = "txt";
-                            saveFile.Filter = "Text files (*.txt)|*.txt";
-                            saveFile.ShowDialog();
-                            currentFile = saveFile.FileName;
-                            try
-                            {
-                                File.WriteAllText(currentFile, UserInputBox.Text);
-                                System.Media.SoundPlayer player1 = new System.Media.SoundPlayer(Properties.Resources.meow4);
-                                player1.PlaySync();
-                                App.Current.Shutdown();
-                            }
-                            catch (ArgumentException)
-                            {
-                                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
-                                BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
-                            }
+                            SaveFileAs();
+                            ShutdownApp();
                         }
                         else
                         {
-                            try
-                            {
-                                File.WriteAllText(currentFile, UserInputBox.Text);
-                                System.Media.SoundPlayer player2 = new System.Media.SoundPlayer(Properties.Resources.meow4);
-                                player2.PlaySync();
-                                App.Current.Shutdown();
-                            }
-                            catch (ArgumentException)
-                            {
-                                MessageBoxResult warning = MessageBox.Show("Sorry, there was a problem saving your work. Please try again to ensure that your work is saved!", "Work Not Saved!");
-                                BlackLabelDisplay.Content = "Hey, just letting you know, we weren't able to save your work!";
-                            }
+                            SaveFile();
+                            ShutdownApp();
                         }
                         break;
 
                     case MessageBoxResult.No:
-                        System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow4);
-                        player.PlaySync();
-                        App.Current.Shutdown();
+                        ShutdownApp();
                         break;
 
                     case MessageBoxResult.Cancel:
@@ -385,9 +300,7 @@ namespace CuteWriter
                 switch (haveInput)
                 {
                     case MessageBoxResult.Yes:
-                        System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.meow4);
-                        player.PlaySync();
-                        App.Current.Shutdown();
+                        ShutdownApp();
                         break;
 
                     case MessageBoxResult.No:
