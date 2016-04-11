@@ -131,6 +131,11 @@ namespace CuteWriter
 
         private void ShutdownApp()
         {
+            string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string defaultFile = desktop + "/CuteWriterDoc.txt";
+            string defaultFileContent = File.ReadAllText(defaultFile);
+            if (defaultFileContent == "" || defaultFileContent == null)
+                File.Delete(defaultFile);
             System.Media.SoundPlayer player1 = new System.Media.SoundPlayer(Properties.Resources.meow4);
             player1.PlaySync();
             App.Current.Shutdown();
