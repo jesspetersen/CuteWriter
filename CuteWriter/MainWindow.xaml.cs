@@ -36,6 +36,92 @@ namespace CuteWriter
             player.Play();
         }
 
+        private void OpenCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (UserInputBox.Text != "")
+            {
+                MessageBoxResult haveInput = MessageBox.Show("Hey user! There's already text in the editor - do you want to save that first?", "Save?", MessageBoxButton.YesNoCancel);
+
+                switch (haveInput)
+                {
+                    case MessageBoxResult.Yes:
+                        if (currentFile == null)
+                        {
+                            bool successful = SaveFileAs();
+                            OpenFile(successful);
+                        }
+                        else
+                        {
+                            bool success = SaveFile();
+                            OpenFile(success);
+                        }
+                        break;
+
+                    case MessageBoxResult.No:
+                        OpenFile(false);
+                        break;
+
+                    case MessageBoxResult.Cancel:
+                        BlackLabelDisplay.Content = "You did not open a file! :)";
+                        break;
+                }
+            }
+            else
+            {
+                OpenFile(false);
+            }
+        }
+
+        private void SaveCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (currentFile != null || currentFile == "")
+            {
+                SaveFile();
+            }
+            else
+            {
+                SaveFileAs();
+            }
+        }
+
+        private void NewCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (UserInputBox.Text != "")
+            {
+                MessageBoxResult haveInput = MessageBox.Show("Hey user! There's already text in the editor - do you want to save that first?", "Save?", MessageBoxButton.YesNoCancel);
+
+                switch (haveInput)
+                {
+                    case MessageBoxResult.Yes:
+                        if (currentFile == null)
+                        {
+                            bool successful = SaveFileAs();
+                            NewDoc(successful);
+                        }
+                        else
+                        {
+                            bool success = SaveFile();
+                            NewDoc(success);
+                        }
+                        break;
+
+                    case MessageBoxResult.No:
+                        NewDoc(false);
+                        break;
+
+                    case MessageBoxResult.Cancel:
+                        currentFile = null;
+                        BlackLabelDisplay.Content = "You did not create a new document. :)";
+                        break;
+                }
+            }
+            else
+            {
+                currentFile = null;
+                BlackLabelDisplay.Content = "Here is your new document! <3";
+            }
+        }
+
         private void UserInputBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             BlackLabelDisplay.Content = "The text is being modified!! :)";
@@ -152,81 +238,7 @@ namespace CuteWriter
                 BlackLabelDisplay.Content = "Hey! You don't seem to have written anything! Try typing before you save!";
             }
         }
-
-        private void NewDoc_Click(object sender, RoutedEventArgs e)
-        {
-            if (UserInputBox.Text != "")
-            {
-                MessageBoxResult haveInput = MessageBox.Show("Hey user! There's already text in the editor - do you want to save that first?", "Save?", MessageBoxButton.YesNoCancel);
-
-                switch (haveInput)
-                {
-                    case MessageBoxResult.Yes:
-                        if (currentFile == null)
-                        {
-                            bool successful = SaveFileAs();
-                            NewDoc(successful);
-                        }
-                        else
-                        {
-                            bool success = SaveFile();
-                            NewDoc(success);
-                        }
-                        break;
-
-                    case MessageBoxResult.No:
-                        NewDoc(false);
-                        break;
-
-                    case MessageBoxResult.Cancel:
-                        currentFile = null;
-                        BlackLabelDisplay.Content = "You did not create a new document. :)";
-                        break;
-                }
-            }
-            else
-            {
-                currentFile = null;
-                BlackLabelDisplay.Content = "Here is your new document! <3";
-            }
-        }
-
-        private void OpenDoc_Click(object sender, RoutedEventArgs e)
-        {
-            if (UserInputBox.Text != "")
-            {
-                MessageBoxResult haveInput = MessageBox.Show("Hey user! There's already text in the editor - do you want to save that first?", "Save?", MessageBoxButton.YesNoCancel);
-
-                switch (haveInput)
-                {
-                    case MessageBoxResult.Yes:
-                        if (currentFile == null)
-                        {
-                            bool successful = SaveFileAs();
-                            OpenFile(successful);
-                        }
-                        else
-                        {
-                            bool success = SaveFile();
-                            OpenFile(success);
-                        }
-                        break;
-
-                    case MessageBoxResult.No:
-                        OpenFile(false);
-                        break;
-
-                    case MessageBoxResult.Cancel:
-                        BlackLabelDisplay.Content = "You did not open a file! :)";
-                        break;
-                }
-            }
-            else
-            {
-                OpenFile(false);
-            }
-        }
-
+        
         private void SaveDoc_Click(object sender, RoutedEventArgs e)
         {
             if (currentFile != null || currentFile == "")

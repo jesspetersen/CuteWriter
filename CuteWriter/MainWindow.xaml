@@ -14,7 +14,18 @@
         WindowStyle="ToolWindow"
         FontFamily="Courier New"
         Icon="Resources/Icon.png"
-        FocusManager.FocusedElement="{Binding ElementName=UserInputBox}" Closing="Window_Closing">
+        FocusManager.FocusedElement="{Binding ElementName=UserInputBox}" Closing="Window_Closing"
+        >
+    <Window.CommandBindings>
+        <CommandBinding Command="New" Executed="NewCommandBinding_Executed" />
+        <CommandBinding Command="Open" Executed="OpenCommandBinding_Executed" />
+        <CommandBinding Command="Save" Executed="SaveCommandBinding_Executed" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Control" Command="New" />
+        <KeyBinding Key="O" Modifiers="Control" Command="Open" />
+        <KeyBinding Key="S" Modifiers="Control" Command="Save" />
+    </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="124*"/>
@@ -44,9 +55,9 @@
             <Rectangle HorizontalAlignment="Stretch" Fill="White" Height="4"/>
             <Menu Background="#e86a35" FontFamily="Courier New" >
                 <MenuItem Name="FileMenu" Header="FILE" HorizontalAlignment="Stretch" MinWidth="123" Height="30" Foreground="White" FontWeight="Bold" >
-                    <MenuItem Name="_NewDoc" Header="New" Foreground="DeepPink" Click="NewDoc_Click"  />
-                    <MenuItem Name="_OpenDoc" Header="Open" Foreground="DeepPink" Click="OpenDoc_Click" />
-                    <MenuItem Name="_SaveDoc" Header="Save" Foreground="DeepPink" Click="SaveDoc_Click" />
+                    <MenuItem Name="_NewDoc" Header="New" Foreground="DeepPink" Command="New"  />
+                    <MenuItem Name="_OpenDoc" Header="Open" Foreground="DeepPink" Command="Open" />
+                    <MenuItem Name="_SaveDoc" Header="Save" Foreground="DeepPink" Command="Save" />
                     <MenuItem Name="SaveAsDoc" Header="Save As" Foreground="DeepPink" Click="SaveAsDoc_Click"  />
                     <Separator />
                     <MenuItem Name="DeleteDoc" Header="Delete" Foreground="DeepPink" Click="DeleteDoc_Click"  />
