@@ -14,7 +14,8 @@
         WindowStyle="ToolWindow"
         FontFamily="Courier New"
         Icon="Resources/Icon.png"
-        FocusManager.FocusedElement="{Binding ElementName=UserInputBox}" Closing="Window_Closing"
+        FocusManager.FocusedElement="{Binding ElementName=UserInputBox}"
+        Closing="Window_Closing"
         >
     <Window.CommandBindings>
         <CommandBinding Command="New" Executed="NewCommandBinding_Executed" />

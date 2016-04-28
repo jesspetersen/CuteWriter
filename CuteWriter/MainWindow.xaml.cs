@@ -110,7 +110,6 @@ namespace CuteWriter
                         break;
 
                     case MessageBoxResult.Cancel:
-                        currentFile = null;
                         BlackLabelDisplay.Content = "You did not create a new document. :)";
                         break;
                 }
